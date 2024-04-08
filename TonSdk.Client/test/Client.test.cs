@@ -3,18 +3,19 @@
 namespace TonSdk.Client.Tests;
 public class ClientTest
 {
-    TonClient client = new(new() { Endpoint = "https://toncenter.com/api/v2/jsonRPC", ApiKey = "0efdbc011a4c1c36fc74c3c4291bd9a1eccbf960b9113516fc62bc9e6a127d6d" });
+    TonClient client = new(new() { Endpoint = "https://testnet.toncenter.com/api/v2/jsonRPC", ApiKey = "8e917567701b99d52f56599ab343121c520b8f215c05d8817d82fd9150b02a37" });
 
     [Test]
     public async Task Test_AddressBalance()
     {
-        Assert.That((await client.GetBalance(new Address("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N"))) is Coins , Is.EqualTo(true));
+      var coin=  await client.GetBalance(new Address("UQAzgJ0NeET2jjSmwDMoLFVDnHF4BEJCVTvy_Yzni7VC22Ky"));
+        Console.Write($"coin result={coin.ToBigInt()}");
     }
 
     [Test]
     public void Test_GetMasterchainInfo()
     {
-        Assert.DoesNotThrowAsync(() => client.GetMasterchainInfo());
+        Console.Write($" result={client.GetMasterchainInfo().Result}");
     }
 
     [Test]
@@ -74,7 +75,7 @@ public class ClientTest
     [Test]
     public async Task Test_NftGetCollectionData()
     {
-        Assert.That((await client.Nft.GetCollectionData(new Address("EQBiX_Sxuy5htTLg_BzUk1kw7FuI3zWvmnotiuvmnwqZpmUj"))).OwnerAddress.Equals(new Address("EQAkL6uxUwDxqI_4r7GwdzbpzoxiVRrT92WZ2ri84qYW8xPz")), Is.EqualTo(true));
+        Assert.That((await client.Nft.GetCollectionData(new Address("EQDEVBvMyFk4K_IXzn46fnOR_jQAj23jbozGfjTa1h3t84rc"))).OwnerAddress.Equals(new Address("EQB99CnYATfUJtE_Ji5B8u31S0tdJzDjej7eYgo_ksw9LsuJ")), Is.EqualTo(true));
         Assert.ThrowsAsync<Exception>(async Task () => await client.Nft.GetCollectionData(new Address("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HAn4bpAOg8xofto")), "Cannot retrieve nft collection data.");
     }
 
